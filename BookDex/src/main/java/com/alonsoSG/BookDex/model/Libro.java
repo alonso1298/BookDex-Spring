@@ -1,9 +1,9 @@
 package com.alonsoSG.BookDex.model;
 
-public class Book {
+public class Libro {
     private Long id;
     private String titulo;
     private List<Autores> autores;
-    private String idioma;
+    private List<Idiomas> idiomas;
     private Integer numeroDeDescargas;
 }
