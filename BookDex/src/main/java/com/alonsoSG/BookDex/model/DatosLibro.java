@@ -7,9 +7,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true) // Va a ignorar aquellos campos que no mapeamos dentro de la clase
 public record DatosLibro(
-    @JsonAlias("title") String titulo,
-    @JsonAlias("authors") List<DatosAutor> autor,
-    @JsonAlias("languages") List<String> idiomas,
-    @JsonAlias("download_count") Integer numeroDeDescargas){
+        @JsonAlias("title") String titulo,
+        @JsonAlias("authors") List<DatosAutor> autor,
+        @JsonAlias("languages") List<String> idiomas,
+        @JsonAlias("download_count") Integer numeroDeDescargas){
 
+        public DatosAutor autorPrincipal() {
+            return (autor != null && !autor.isEmpty()) ? autor.get(0) : null;
+        }
     }
+
+    

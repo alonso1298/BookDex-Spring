@@ -41,7 +41,7 @@ public class Principal {
                     mostrarLibrosRegistrados();
                     break;
                 case 3:
-                    
+                    listarAutoresRegistrados();
                     break;
                 case 4:
                     
@@ -88,5 +88,17 @@ public class Principal {
                 System.out.println((i + 1) + ". " + libro.titulo());
             }
         }
+    }
+
+    private void listarAutoresRegistrados() {
+        String json = consumoAPI.obtenerDatos(URL_BASE);
+        Datos datos = conversor.obtenerDatos(json, Datos.class);
+
+        System.out.println("\n Autores registrados: ");
+        datos.resultados().stream()
+            .map(DatosLibro::autorPrincipal)
+            .filter(autor -> autor != null && autor.nombre() != null)
+            .distinct()
+            .forEach(autor -> System.out.println("-" + autor.nombre()));
     }
 }
