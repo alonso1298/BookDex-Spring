@@ -19,6 +19,15 @@ public class Principal {
             System.out.println(menu);
             opcion = teclado.nextInt();
             teclado.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    
+                    break;
+            
+                default:
+                    break;
+            }
         }
     } 
 }

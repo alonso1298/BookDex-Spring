@@ -56,6 +56,12 @@ public class Libro {
         this.numeroDeDescargas = numeroDeDescargas;
     }
 
+    @Override
+    public String toString() {
+        return "Libro titulo=" + titulo + ", autores=" + autores + ", idiomas=" + idiomas + ", numeroDeDescargas="
+                + numeroDeDescargas;
+    }
+
     
 }
 

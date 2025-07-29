@@ -32,6 +32,13 @@ public class Autores {
         this.fechaDeFallecimiento = fechaDeFallecimiento;
     }
 
+    @Override
+    public String toString() {
+        return "Autores nombre=" + nombre + ", fechaDeNacimiento=" + fechaDeNacimiento + ", fechaDeFallecimiento="
+                + fechaDeFallecimiento;
+    }
+
+    
     
 }
 
