@@ -44,7 +44,7 @@ public class Principal {
                     listarAutoresRegistrados();
                     break;
                 case 4:
-                    
+                    autoresVivosEnDeterminadoAnio();
                     break;
                 case 5:
                     
@@ -100,5 +100,36 @@ public class Principal {
             .filter(autor -> autor != null && autor.nombre() != null)
             .distinct()
             .forEach(autor -> System.out.println("-" + autor.nombre()));
+    }
+
+    private void autoresVivosEnDeterminadoAnio(){
+        System.out.println("Ingresa el intervalo de años que deseas consultar");
+        System.out.println("Ingresa el primer año: ");
+        Integer primeranio = teclado.nextInt();
+        System.out.println("Ingresa el segundo año ");
+        Integer segundoAnio = teclado.nextInt();
+        teclado.nextLine();
+
+        if(segundoAnio < primeranio) {
+            System.out.println("El primer año tiene que ser menor o igual al segundo.");
+            return;
+        }
+
+        String url = URL_BASE + "?author_year_start=" + primeranio + "&author_year_end=" + segundoAnio;
+        String json = consumoAPI.obtenerDatos(url);
+        Datos datos = conversor.obtenerDatos(json, Datos.class);
+
+        if(datos.resultados().isEmpty()){
+            System.out.println("No se encontraron autores vivos entre esos años ");
+            return;
+        }
+        
+        System.out.println("\n Se encontraron los siguientes autore: ");
+        datos.resultados().stream()
+            .map(DatosLibro::autorPrincipal)
+            .distinct()
+            .forEach(autor -> System.out.println("-" + autor.nombre()
+                + "(" + autor.fechaDeNacimiento() + "-" +
+                autor.fechaDeFallecimiento() != null ? autor.fechaDeFallecimiento() : "Presente" + ")"));
     }
 }
