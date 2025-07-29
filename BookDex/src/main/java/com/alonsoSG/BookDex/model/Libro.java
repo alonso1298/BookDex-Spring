@@ -6,7 +6,7 @@ public class Libro {
     private Long id;
     private String titulo;
     private List<Autores> autores;
-    private List<Idiomas> idiomas;
+    private List<DatosIdioma> idiomas;
     private Integer numeroDeDescargas;
     
     public Long getId() {
