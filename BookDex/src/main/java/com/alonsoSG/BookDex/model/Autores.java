@@ -5,9 +5,11 @@ public class Autores {
     private Integer fechaDeNacimiento;
     private Integer fechaDeFallecimiento;
 
+    public Autores(){}
+
     public Autores(DatosAutores datosAutores){
         this.nombre = datosAutores.nombre();
-        this.fechaDeFallecimiento = datosAutores.fechaDeNacimiento();
+        this.fechaDeNacimiento = datosAutores.fechaDeNacimiento();
         this.fechaDeFallecimiento = datosAutores.fechaDeFallecimiento();
     }
 

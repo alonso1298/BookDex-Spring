@@ -1,6 +1,7 @@
 package com.alonsoSG.BookDex.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Libro {
     private Long id;
@@ -8,6 +9,21 @@ public class Libro {
     private List<Autores> autores;
     private List<String> idiomas;
     private Integer numeroDeDescargas;
+
+    public Libro(DatosLibro datosLibro){
+        this.titulo = datosLibro.titulo();
+        this.autores = datosLibro.autores().stream()
+            .map(datosAutor -> {
+                Autores autor = new Autores();
+                autor.setNombre(datosAutor.nombre());
+                autor.setFechaDeFallecimiento(datosAutor.fechaDeNacimiento());
+                autor.setFechaDeFallecimiento(datosAutor.fechaDeFallecimiento());
+                return autor;
+            })
+            .collect(Collectors.toList());
+        this.idiomas = datosLibro.lenguajes();
+        this.numeroDeDescargas = datosLibro.numeroDeDescargas();
+    }
     
     public Long getId() {
         return id;
