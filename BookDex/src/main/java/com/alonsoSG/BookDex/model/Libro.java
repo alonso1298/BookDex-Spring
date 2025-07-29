@@ -12,7 +12,7 @@ public class Libro {
 
     public Libro(DatosLibro datosLibro){
         this.titulo = datosLibro.titulo();
-        this.autores = datosLibro.autores().stream()
+        this.autores = datosLibro.autor().stream()
             .map(datosAutor -> {
                 Autores autor = new Autores();
                 autor.setNombre(datosAutor.nombre());
@@ -21,7 +21,7 @@ public class Libro {
                 return autor;
             })
             .collect(Collectors.toList());
-        this.idiomas = datosLibro.lenguajes();
+        this.idiomas = datosLibro.idiomas();
         this.numeroDeDescargas = datosLibro.numeroDeDescargas();
     }
     

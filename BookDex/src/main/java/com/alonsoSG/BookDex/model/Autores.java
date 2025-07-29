@@ -7,7 +7,7 @@ public class Autores {
 
     public Autores(){}
 
-    public Autores(DatosAutores datosAutores){
+    public Autores(DatosAutor datosAutores){
         this.nombre = datosAutores.nombre();
         this.fechaDeNacimiento = datosAutores.fechaDeNacimiento();
         this.fechaDeFallecimiento = datosAutores.fechaDeFallecimiento();
