@@ -5,8 +5,8 @@ import java.util.List;
 public class Libro {
     private Long id;
     private String titulo;
-    private List<DatosAutores> autores;
-    private List<DatosIdioma> idiomas;
+    private List<Autores> autores;
+    private List<String> idiomas;
     private Integer numeroDeDescargas;
     
     public Long getId() {
@@ -21,16 +21,16 @@ public class Libro {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-    public List<DatosAutores> getAutores() {
+    public List<Autores> getAutores() {
         return autores;
     }
-    public void setAutores(List<DatosAutores> autores) {
+    public void setAutores(List<Autores> autores) {
         this.autores = autores;
     }
-    public List<DatosIdioma> getIdiomas() {
+    public List<String> getIdiomas() {
         return idiomas;
     }
-    public void setIdiomas(List<DatosIdioma> idiomas) {
+    public void setIdiomas(List<String> idiomas) {
         this.idiomas = idiomas;
     }
     public Integer getNumeroDeDescargas() {
