@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Principal {
     Scanner teclado = new Scanner(System.in);
-    private void muestraMenu(){
+    public  void muestraMenu(){
         Integer opcion = -1;
         while (opcion != 0) {
             String menu = """
