@@ -4,7 +4,13 @@ public class Autores {
     private String nombre;
     private Integer fechaDeNacimiento;
     private Integer fechaDeFallecimiento;
-    
+
+    public Autores(DatosAutores datosAutores){
+        this.nombre = datosAutores.nombre();
+        this.fechaDeFallecimiento = datosAutores.fechaDeNacimiento();
+        this.fechaDeFallecimiento = datosAutores.fechaDeFallecimiento();
+    }
+
     public String getNombre() {
         return nombre;
     }
