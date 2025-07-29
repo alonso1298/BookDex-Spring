@@ -5,15 +5,13 @@ public class Principal {
         Integer opcion = -1;
         while (opcion != 0) {
             String menu = """
-                    1 - Buscar series 
-                    2 - Buscar episodios
-                    3 - Mostrar series buscadas
-                    4 - Buscar series por titulo
-                    5 - Top 5 Mejores series
-                    6 - Buscar series por categoria
-                    7 - Filtrar Series
-                    8 - Buscar espisodios por titulo
-                    9 - Top 5 Episodios por serie
+                    Elija la opción atravez de su número:
+                    1 - Buscar un libro por su titulo
+                    2 - Listar libros registrados
+                    3 - Listar autores registrados
+                    4 - Listar autores vivos en un determinado año
+                    5 - Listar libros por idioma
+                    0 - Salir.
                     """;
         }
     } 
