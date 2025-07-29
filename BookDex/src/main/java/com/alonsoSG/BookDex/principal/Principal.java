@@ -1,6 +1,9 @@
 package com.alonsoSG.BookDex.principal;
 
+import java.util.Scanner;
+
 public class Principal {
+    Scanner teclado = new Scanner(System.in);
     private void muestraMenu(){
         Integer opcion = -1;
         while (opcion != 0) {
@@ -13,6 +16,9 @@ public class Principal {
                     5 - Listar libros por idioma
                     0 - Salir.
                     """;
+            System.out.println(menu);
+            opcion = teclado.nextInt();
+            teclado.nextInt();
         }
     } 
 }
