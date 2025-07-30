@@ -10,10 +10,10 @@ public class ConvierteDatos implements IConvierteDatos{
     public <T> T obtenerDatos(String json, Class<T> clase) {
         try {
             return objectMapper.readValue(json, clase);
-        } catch(JsonProcessingException e) {
-            throw new RuntimeException();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
-     
+    
 }

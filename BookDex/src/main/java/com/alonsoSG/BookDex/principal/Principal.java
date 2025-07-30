@@ -32,6 +32,7 @@ public class Principal {
                     """;
             System.out.println(menu);
             opcion = teclado.nextInt();
+            teclado.nextLine();
 
             switch (opcion) {
                 case 1:
