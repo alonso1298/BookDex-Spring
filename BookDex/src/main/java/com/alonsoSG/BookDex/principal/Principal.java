@@ -72,14 +72,21 @@ public class Principal {
         String nombreLibro = teclado.nextLine();
         String json = consumoAPI.obtenerDatos(URL_BASE + "?search="  + nombreLibro.replace(" ", "+"));
         System.out.println(json);
-        DatosLibros datos = conversor.obtenerDatos(json, DatosLibros.class);
-        return datos;
+        Datos datos = conversor.obtenerDatos(json, Datos.class);
+        if (datos.resultados().isEmpty()) {
+            System.out.println("No se encontró ningún libro con ese título.");
+            return null;
+        }
+        return datos.resultados().get(0);
     }
 
     private void buscarSeriePorTitulo() {
             DatosLibros datos = getDatosLibros();
-            Libro libro = new Libro(datos);
-            repositorio.save(libro);
+            if (datos != null) {
+                Libro libro = new Libro(datos);
+                repositorio.save(libro);
+                System.out.println("Libro guardado correctamente: " + libro.getTitulo());
+            }
     }
     private void mostrarLibrosRegistrados(){
         if(librosBuscados.isEmpty()){
