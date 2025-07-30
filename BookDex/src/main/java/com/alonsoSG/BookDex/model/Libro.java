@@ -2,13 +2,15 @@ package com.alonsoSG.BookDex.model;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,27 +19,25 @@ public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
     private String titulo;
-    @ManyToOne
-    private Autor autor;
-    @ElementCollection
-    private List<String> idiomas;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "libro_autor", // Talba intermedia
+        joinColumns = @JoinColumn(name = "libro_id"), // Foring Key
+        inverseJoinColumns = @JoinColumn(name = "autor_id") // foring key autores
+    )
+    private List<Autor> autor;
+    private String idioma;
     private Integer numeroDeDescargas;
 
     public Libro() {}
 
     public Libro(DatosLibros datosLibro){
         this.titulo = datosLibro.titulo();
-        if(!datosLibro.autor().isEmpty()){
-            DatosAutor datosAutor = datosLibro.autor().get(0);
-            Autor autor = new Autor();
-            autor.setNombre(datosAutor.nombre());
-            autor.setFechaDeFallecimiento(datosAutor.fechaDeNacimiento());
-            autor.setFechaDeNacimiento(datosAutor.fechaDeFallecimiento());
-            this.autor = autor;
-        }
-        this.idiomas = datosLibro.idiomas();
+        this.autor = datosLibro.autor().stream()
+            .map(Autor::new) // Usar el constructor de Autor que acepta DatosAutor
+            .toList();
+        this.idioma = datosLibro.idiomas().get(0).trim();
         this.numeroDeDescargas = datosLibro.numeroDeDescargas();
     }
     
@@ -53,17 +53,17 @@ public class Libro {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-    public Autor getAutor() {
+    public List<Autor> getAutor() {
         return autor;
     }
-    public void setAutores(Autor autor) {
+    public void setAutores(List<Autor> autor) {
         this.autor = autor;
     }
-    public List<String> getIdiomas() {
-        return idiomas;
+    public String getIdioma() {
+        return idioma;
     }
-    public void setIdiomas(List<String> idiomas) {
-        this.idiomas = idiomas;
+    public void setIdiomas(String idiomas) {
+        this.idioma = idiomas;
     }
     public Integer getNumeroDeDescargas() {
         return numeroDeDescargas;
@@ -74,7 +74,7 @@ public class Libro {
 
     @Override
     public String toString() {
-        return "Libro titulo=" + titulo + ", autor=" + autor + ", idiomas=" + idiomas + ", numeroDeDescargas="
+        return "Libro titulo=" + titulo + ", autor=" + autor + ", idiomas=" + idioma + ", numeroDeDescargas="
                 + numeroDeDescargas;
     }
 

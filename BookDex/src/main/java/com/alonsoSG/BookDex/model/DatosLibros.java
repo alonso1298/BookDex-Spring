@@ -11,10 +11,6 @@ public record DatosLibros(
         @JsonAlias("authors") List<DatosAutor> autor,
         @JsonAlias("languages") List<String> idiomas,
         @JsonAlias("download_count") Integer numeroDeDescargas){
-
-        public DatosAutor autorPrincipal() {
-            return (autor != null && !autor.isEmpty()) ? autor.get(0) : null;
-        }
     }
 
     
