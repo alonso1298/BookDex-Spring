@@ -7,6 +7,7 @@ import java.util.Scanner;
 import com.alonsoSG.BookDex.model.Datos;
 import com.alonsoSG.BookDex.model.DatosLibros;
 import com.alonsoSG.BookDex.model.Libro;
+import com.alonsoSG.BookDex.repository.AutorRepository;
 import com.alonsoSG.BookDex.repository.LibroRepository;
 import com.alonsoSG.BookDex.service.ConsumoAPI;
 import com.alonsoSG.BookDex.service.ConvierteDatos;
@@ -17,11 +18,13 @@ public class Principal {
     private final String URL_BASE = "https://gutendex.com/books";
     private ConvierteDatos conversor = new ConvierteDatos();
     private LibroRepository repositorio;
+    private AutorRepository repositorioAutor;
     private List<DatosLibros> librosBuscados = new ArrayList<>();
 
 
-    public Principal(LibroRepository repository) {
+    public Principal(LibroRepository repository, AutorRepository autorRepository) {
         this.repositorio = repository;
+        this.repositorioAutor = autorRepository;
     }
 
     public  void muestraMenu(){
@@ -67,79 +70,24 @@ public class Principal {
         }
     }
 
-    private DatosLibros getDatosLibros(){
-        System.out.println("Escribe el titulo del libro que deseas buscar");
-        String nombreLibro = teclado.nextLine();
-        String json = consumoAPI.obtenerDatos(URL_BASE + "?search="  + nombreLibro.replace(" ", "+"));
-        System.out.println(json);
-        Datos datos = conversor.obtenerDatos(json, Datos.class);
-        if (datos.resultados().isEmpty()) {
-            System.out.println("No se encontró ningún libro con ese título.");
-            return null;
-        }
-        return datos.resultados().get(0);
-    }
-
+    
+    
+    
     private void buscarSeriePorTitulo() {
-            DatosLibros datos = getDatosLibros();
-            if (datos != null) {
-                Libro libro = new Libro(datos);
-                repositorio.save(libro);
-                System.out.println("Libro guardado correctamente: " + libro.getTitulo());
-            }
+        System.out.println("Ingresa el titulo del libro a buscar");
     }
-    private void mostrarLibrosRegistrados(){
-        if(librosBuscados.isEmpty()){
-            System.out.println("No hay libros registrados todavía. ");
-        }else{
-            System.out.println("Libros registados: \n");
-            for (int i = 0; i < librosBuscados.size(); i++) {
-                DatosLibros libro = librosBuscados.get(i);
-                System.out.println((i + 1) + ". " + libro.titulo());
-            }
-        }
+    
+    private void mostrarLibrosRegistrados() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'mostrarLibrosRegistrados'");
     }
-
+    private void autoresVivosEnDeterminadoAnio() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'autoresVivosEnDeterminadoAnio'");
+    }
+    
     private void listarAutoresRegistrados() {
-        String json = consumoAPI.obtenerDatos(URL_BASE);
-        Datos datos = conversor.obtenerDatos(json, Datos.class);
-
-        System.out.println("\n Autores registrados: ");
-        datos.resultados().stream()
-            .map(DatosLibros::autorPrincipal)
-            .filter(autor -> autor != null && autor.nombre() != null)
-            .distinct()
-            .forEach(autor -> System.out.println("-" + autor.nombre()));
-    }
-
-    private void autoresVivosEnDeterminadoAnio(){
-        System.out.println("Ingresa el intervalo de años que deseas consultar");
-        System.out.println("Ingresa el primer año: ");
-        Integer primeranio = teclado.nextInt();
-        System.out.println("Ingresa el segundo año ");
-        Integer segundoAnio = teclado.nextInt();
-        teclado.nextLine();
-
-        if(segundoAnio < primeranio) {
-            System.out.println("El primer año tiene que ser menor o igual al segundo.");
-            return;
-        }
-
-        String url = URL_BASE + "?author_year_start=" + primeranio + "&author_year_end=" + segundoAnio;
-        String json = consumoAPI.obtenerDatos(url);
-        Datos datos = conversor.obtenerDatos(json, Datos.class);
-
-        if(datos.resultados().isEmpty()){
-            System.out.println("No se encontraron autores vivos entre esos años ");
-            return;
-        }
-        
-        System.out.println("\n Se encontraron los siguientes autore: ");
-        datos.resultados().stream()
-            .map(DatosLibros::autorPrincipal)
-            .distinct()
-            .forEach(autor -> System.out.println("-" + autor.nombre()
-                + "(" + autor.fechaDeNacimiento() + "-" +
-                autor.fechaDeFallecimiento() != null ? autor.fechaDeFallecimiento() : "Presente" + ")"));
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarAutoresRegistrados'");
     }
 }
