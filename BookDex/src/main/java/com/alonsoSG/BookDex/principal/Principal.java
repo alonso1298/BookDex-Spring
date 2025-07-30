@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.alonsoSG.BookDex.model.Datos;
 import com.alonsoSG.BookDex.model.DatosLibros;
-import com.alonsoSG.BookDex.model.Libro;
 import com.alonsoSG.BookDex.repository.AutorRepository;
 import com.alonsoSG.BookDex.repository.LibroRepository;
 import com.alonsoSG.BookDex.service.ConsumoAPI;
@@ -15,7 +13,7 @@ import com.alonsoSG.BookDex.service.ConvierteDatos;
 public class Principal {
     Scanner teclado = new Scanner(System.in);
     private ConsumoAPI consumoAPI = new ConsumoAPI();
-    private final String URL_BASE = "https://gutendex.com/books";
+    private final String URL_BASE = "https://gutendex.com/books/?search=%20";
     private ConvierteDatos conversor = new ConvierteDatos();
     private LibroRepository repositorio;
     private AutorRepository repositorioAutor;

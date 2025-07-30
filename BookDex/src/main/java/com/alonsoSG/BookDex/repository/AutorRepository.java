@@ -11,24 +11,24 @@ import java.util.Optional;
 
 public interface AutorRepository extends JpaRepository<Autor,Long> {
     @Query("select a from Autor a \n" +
-            "\twhere a.fechaNacimiento >= :fechaMinima\n" +
-            "\tand  a.fechaNacimiento <= :fechaMaxima\n" +
-            "\torder by a.fechaNacimiento ")
+            "\twhere a.fechaDeNacimiento >= :fechaMinima\n" +
+            "\tand  a.fechaDeNacimiento <= :fechaMaxima\n" +
+            "\torder by a.fechaDeNacimiento ")
     List<Autor> busquedaJPQL(Integer fechaMaxima, Integer fechaMinima);
 
     @Query("SELECT COUNT(l) " +
             "FROM Autor a JOIN a.libro l " +
-            "WHERE a.fechaNacimiento >= :fechaMinima " +
-            "AND a.fechaNacimiento <= :fechaMaxima")
+            "WHERE a.fechaDeNacimiento >= :fechaMinima " +
+            "AND a.fechaDeNacimiento <= :fechaMaxima")
     int cuentaLibrosPorFechas(@Param("fechaMaxima") Integer fechaMaxima,
                               @Param("fechaMinima") Integer fechaMinima);
 
 
     @Query("select a from Autor a \n" +
-            "\twhere a.fechaMuerte >= :fechaMinima\n" +
-            "\tand  a.fechaMuerte <= :fechaMaxima\n" +
-            "\torder by a.fechaMuerte desc")
-    List<Autor> busquedaFechaMuerte(Integer fechaMaxima, Integer fechaMinima);
+            "\twhere a.fechaaDeFallecimiento >= :fechaMinima\n" +
+            "\tand  a.fechaaDeFallecimiento <= :fechaMaxima\n" +
+            "\torder by a.fechaaDeFallecimiento desc")
+    List<Autor> busquedaFechaaDeFallecimiento(Integer fechaMaxima, Integer fechaMinima);
     Optional<Autor> findByNombre(String nombre);
 
     @Query("select a from Autor a \n" +
