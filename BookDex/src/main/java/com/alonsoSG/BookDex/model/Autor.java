@@ -1,13 +1,13 @@
 package com.alonsoSG.BookDex.model;
 
-public class Autores {
+public class Autor {
     private String nombre;
     private Integer fechaDeNacimiento;
     private Integer fechaDeFallecimiento;
 
-    public Autores(){}
+    public Autor(){}
 
-    public Autores(DatosAutor datosAutores){
+    public Autor(DatosAutor datosAutores){
         this.nombre = datosAutores.nombre();
         this.fechaDeNacimiento = datosAutores.fechaDeNacimiento();
         this.fechaDeFallecimiento = datosAutores.fechaDeFallecimiento();

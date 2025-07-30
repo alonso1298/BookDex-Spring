@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class Libro {
     private Long id;
     private String titulo;
-    private List<Autores> autores;
+    private List<Autor> autores;
     private List<String> idiomas;
     private Integer numeroDeDescargas;
 
@@ -14,7 +14,7 @@ public class Libro {
         this.titulo = datosLibro.titulo();
         this.autores = datosLibro.autor().stream()
             .map(datosAutor -> {
-                Autores autor = new Autores();
+                Autor autor = new Autor();
                 autor.setNombre(datosAutor.nombre());
                 autor.setFechaDeFallecimiento(datosAutor.fechaDeNacimiento());
                 autor.setFechaDeFallecimiento(datosAutor.fechaDeFallecimiento());
@@ -37,10 +37,10 @@ public class Libro {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-    public List<Autores> getAutores() {
+    public List<Autor> getAutores() {
         return autores;
     }
-    public void setAutores(List<Autores> autores) {
+    public void setAutores(List<Autor> autores) {
         this.autores = autores;
     }
     public List<String> getIdiomas() {
