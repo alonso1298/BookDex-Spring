@@ -27,7 +27,7 @@ public class Libro {
 
     public Libro() {}
 
-    public Libro(DatosLibro datosLibro){
+    public Libro(DatosLibros datosLibro){
         this.titulo = datosLibro.titulo();
         if(!datosLibro.autor().isEmpty()){
             DatosAutor datosAutor = datosLibro.autor().get(0);

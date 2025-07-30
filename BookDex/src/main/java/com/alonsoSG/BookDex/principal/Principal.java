@@ -2,11 +2,12 @@ package com.alonsoSG.BookDex.principal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 import com.alonsoSG.BookDex.model.Datos;
-import com.alonsoSG.BookDex.model.DatosLibro;
+import com.alonsoSG.BookDex.model.DatosLibros;
+import com.alonsoSG.BookDex.model.Libro;
+import com.alonsoSG.BookDex.repository.LibroRepository;
 import com.alonsoSG.BookDex.service.ConsumoAPI;
 import com.alonsoSG.BookDex.service.ConvierteDatos;
 
@@ -15,8 +16,13 @@ public class Principal {
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private final String URL_BASE = "https://gutendex.com/books";
     private ConvierteDatos conversor = new ConvierteDatos();
-    private List<DatosLibro> librosBuscados = new ArrayList<>();
+    private LibroRepository repositorio;
+    private List<DatosLibros> librosBuscados = new ArrayList<>();
 
+
+    public Principal(LibroRepository repository) {
+        this.repositorio = repository;
+    }
 
     public  void muestraMenu(){
         Integer opcion = -1;
@@ -61,31 +67,27 @@ public class Principal {
         }
     }
 
-    private void buscarSeriePorTitulo() {
+    private DatosLibros getDatosLibros(){
         System.out.println("Escribe el titulo del libro que deseas buscar");
-        String tituloLibro = teclado.nextLine();
-        String json = consumoAPI.obtenerDatos(URL_BASE + "?search="  + tituloLibro.replace(" ", "+"));
-        Datos datos = conversor.obtenerDatos(json, Datos.class);
-        Optional<DatosLibro> libroBuscado = datos.resultados().stream()
-            .filter(l -> l.titulo().toUpperCase().contains(tituloLibro.toUpperCase()))
-            .findFirst();
-
-        if(libroBuscado.isPresent()){
-            DatosLibro libro = libroBuscado.get();
-            librosBuscados.add(libro);
-            System.out.println("El libro buscado es: " + libroBuscado.get());
-        }else {
-            System.out.println("Libro no encontrado");
-        }
+        String nombreLibro = teclado.nextLine();
+        String json = consumoAPI.obtenerDatos(URL_BASE + "?search="  + nombreLibro.replace(" ", "+"));
+        System.out.println(json);
+        DatosLibros datos = conversor.obtenerDatos(json, DatosLibros.class);
+        return datos;
     }
 
+    private void buscarSeriePorTitulo() {
+            DatosLibros datos = getDatosLibros();
+            Libro libro = new Libro(datos);
+            repositorio.save(libro);
+    }
     private void mostrarLibrosRegistrados(){
         if(librosBuscados.isEmpty()){
             System.out.println("No hay libros registrados todavía. ");
         }else{
             System.out.println("Libros registados: \n");
             for (int i = 0; i < librosBuscados.size(); i++) {
-                DatosLibro libro = librosBuscados.get(i);
+                DatosLibros libro = librosBuscados.get(i);
                 System.out.println((i + 1) + ". " + libro.titulo());
             }
         }
@@ -97,7 +99,7 @@ public class Principal {
 
         System.out.println("\n Autores registrados: ");
         datos.resultados().stream()
-            .map(DatosLibro::autorPrincipal)
+            .map(DatosLibros::autorPrincipal)
             .filter(autor -> autor != null && autor.nombre() != null)
             .distinct()
             .forEach(autor -> System.out.println("-" + autor.nombre()));
@@ -127,7 +129,7 @@ public class Principal {
         
         System.out.println("\n Se encontraron los siguientes autore: ");
         datos.resultados().stream()
-            .map(DatosLibro::autorPrincipal)
+            .map(DatosLibros::autorPrincipal)
             .distinct()
             .forEach(autor -> System.out.println("-" + autor.nombre()
                 + "(" + autor.fechaDeNacimiento() + "-" +
