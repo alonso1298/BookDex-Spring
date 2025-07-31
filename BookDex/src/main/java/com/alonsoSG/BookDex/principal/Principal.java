@@ -2,10 +2,12 @@ package com.alonsoSG.BookDex.principal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
-import com.alonsoSG.BookDex.model.Datos;
 import com.alonsoSG.BookDex.model.DatosLibro;
+import com.alonsoSG.BookDex.model.DatosLibros;
+import com.alonsoSG.BookDex.model.Libro;
 import com.alonsoSG.BookDex.repository.AutorRepository;
 import com.alonsoSG.BookDex.repository.LibroRepository;
 import com.alonsoSG.BookDex.service.ConsumoAPI;
@@ -18,6 +20,7 @@ public class Principal {
     private ConvierteDatos conversor = new ConvierteDatos();
     private LibroRepository repositorio;
     private AutorRepository repositorioAutor;
+    String nombreLibro;
     private List<DatosLibro> librosBuscados = new ArrayList<>();
 
 
@@ -74,28 +77,40 @@ public class Principal {
     
     private void buscarSeriePorTitulo() {
         System.out.println("Ingresa el titulo del libro a buscar: ");
-        var titulo = teclado.nextLine();
+        var nombreLibro = teclado.nextLine();
         
-        String url = URL_BASE + titulo.replace(" ", "+");
+        String url = URL_BASE + nombreLibro.replace(" ", "+");
         System.out.println("URL que se consultará: " + url);
 
         var json = consumoAPI.obtenerDatos(url);
 
-        if (json == null || json.isEmpty()) {
-            System.out.println("No se recibio informacion de la API. ");
-            return;
-        }
-        Datos datos = conversor.obtenerDatos(url, Datos.class);
+        var librosTotal = conversor.obtenerDatos(json, DatosLibros.class);
 
-        if (datos.resultados().isEmpty()) {
-            System.out.println("No se encontraron libros para ese título.");
+        // Busca libros en la API
+        Libro libro = librosTotal.libros().stream()
+                .filter(l -> l.titulo() !=null && l.titulo().toLowerCase().contains(nombreLibro.toLowerCase()))
+                .findFirst()
+                .map(Libro::new)
+                .orElse(null);
+
+        if (libro == null) {
+            System.out.println("No se encontró el libro.");
             return;
         }
+
+        // Verificar existencia en la BD
+        Optional<Libro> libroExistente = repositorio.findByTituloContainsIgnoreCase(libro.getTitulo());
+        if(libroExistente.isPresent()){
+            System.out.println("El libro ya existe en la base de datos: " + libroExistente.get().getTitulo());
+            return;
+        }
+        // Guarda libro en la BD 
+        repositorio.save(libro);
+        System.out.println("El libro: " + nombreLibro + "fue guardado exitosamente en la base de datos.");
     }
     
     private void mostrarLibrosRegistrados() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mostrarLibrosRegistrados'");
+        List<Libro> libros = repositorio.findAll();
     }
     private void autoresVivosEnDeterminadoAnio() {
         // TODO Auto-generated method stub
