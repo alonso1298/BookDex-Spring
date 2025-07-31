@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.alonsoSG.BookDex.model.Datos;
 import com.alonsoSG.BookDex.model.DatosLibros;
 import com.alonsoSG.BookDex.repository.AutorRepository;
 import com.alonsoSG.BookDex.repository.LibroRepository;
@@ -72,7 +73,24 @@ public class Principal {
     
     
     private void buscarSeriePorTitulo() {
-        System.out.println("Ingresa el titulo del libro a buscar");
+        System.out.println("Ingresa el titulo del libro a buscar: ");
+        var titulo = teclado.nextLine();
+        
+        String url = URL_BASE + titulo.replace(" ", "+");
+        System.out.println("URL que se consultará: " + url);
+
+        var json = consumoAPI.obtenerDatos(url);
+
+        if (json == null || json.isEmpty()) {
+            System.out.println("No se recibio informacion de la API. ");
+            return;
+        }
+        Datos datos = conversor.obtenerDatos(url, Datos.class);
+
+        if (datos.resultados().isEmpty()) {
+            System.out.println("No se encontraron libros para ese título.");
+            return;
+        }
     }
     
     private void mostrarLibrosRegistrados() {
