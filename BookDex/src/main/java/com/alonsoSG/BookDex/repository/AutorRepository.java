@@ -25,10 +25,10 @@ public interface AutorRepository extends JpaRepository<Autor,Long> {
 
 
     @Query("select a from Autor a \n" +
-            "\twhere a.fechaaDeFallecimiento >= :fechaMinima\n" +
-            "\tand  a.fechaaDeFallecimiento <= :fechaMaxima\n" +
-            "\torder by a.fechaaDeFallecimiento desc")
-    List<Autor> busquedaFechaaDeFallecimiento(Integer fechaMaxima, Integer fechaMinima);
+            "\twhere a.fechaDeFallecimiento >= :fechaMinima\n" +
+            "\tand  a.fechaDeFallecimiento <= :fechaMaxima\n" +
+            "\torder by a.fechaDeFallecimiento desc")
+    List<Autor> busquedaFechaDeFallecimiento(Integer fechaMaxima, Integer fechaMinima);
     Optional<Autor> findByNombre(String nombre);
 
     @Query("select a from Autor a \n" +
