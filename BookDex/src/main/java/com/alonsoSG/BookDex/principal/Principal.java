@@ -1,15 +1,12 @@
 package com.alonsoSG.BookDex.principal;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.alonsoSG.BookDex.model.Autor;
-import com.alonsoSG.BookDex.model.DatosLibro;
 import com.alonsoSG.BookDex.model.DatosLibros;
 import com.alonsoSG.BookDex.model.Libro;
 import com.alonsoSG.BookDex.repository.AutorRepository;
@@ -25,7 +22,6 @@ public class Principal {
     private LibroRepository repositorio;
     private AutorRepository repositorioAutor;
     String nombreLibro;
-    private List<DatosLibro> librosBuscados = new ArrayList<>();
 
 
     public Principal(LibroRepository repository, AutorRepository autorRepository) {
@@ -137,7 +133,29 @@ public class Principal {
     }
 
     private void autoresVivosEnDeterminadoAnio() {
-        
+        System.out.println("Indica el intervalo de fechas para la busqueda");
+        System.out.println("Fecha de nacimiento máxima");
+        Integer fechaMaxima = teclado.nextInt();
+        System.out.println("Fecha de Nacimiento mínima");
+        Integer fechaMinima = teclado.nextInt();
+        teclado.nextLine(); // Limpia el Buffer
+        List<Autor> autores = repositorioAutor.busquedaJPQL(fechaMaxima, fechaMinima);
+        if (autores.isEmpty()) {
+            System.out.println("No se encontraron autores");
+            return;
+        }
+        autores.stream().distinct()
+            .forEach(a -> {
+                System.out.println(
+                    "Autor: " + a.getNombre() +
+                    "\nFecha de nacimiento: " + a.getFechaDeFallecimiento() +
+                    "\nFecha de Muerte: " + a.getFechaDeFallecimiento() +
+                    "\nLibros: ");
+                a.getLibro().forEach(l -> System.out.println("- " + l.getTitulo()));
+            });
+        int numeroLibros = repositorioAutor.cuentaLibrosPorFechas(fechaMaxima,fechaMinima);
+        System.out.println("Número total de libros escritos " +
+                "por autores nacidos en el rango indicado" + numeroLibros);
     }
     
 }
