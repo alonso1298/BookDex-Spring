@@ -13,6 +13,6 @@ import com.alonsoSG.BookDex.model.Libro;
 public interface LibroRepository extends JpaRepository<Libro, Long>{
     Optional<Libro> findByTituloContainsIgnoreCase(String nombreLibro);
     Optional<Libro> findByTitulo(String titulo);
-    @Query(value = "select * from libros",nativeQuery = true)
+    @Query(value = "select * from libro",nativeQuery = true)
     List<Libro> busquedaSQLNativo();
 }

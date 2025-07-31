@@ -22,6 +22,7 @@ public class Principal {
     private LibroRepository repositorio;
     private AutorRepository repositorioAutor;
     String nombreLibro;
+    private List<String> idiomas;
 
 
     public Principal(LibroRepository repository, AutorRepository autorRepository) {
@@ -59,7 +60,7 @@ public class Principal {
                     autoresVivosEnDeterminadoAnio();
                     break;
                 case 5:
-                    
+                    listarPorIdioma();
                     break;
                 case 0:
                     System.out.println("Cerrando Programa...");
@@ -156,6 +157,17 @@ public class Principal {
         int numeroLibros = repositorioAutor.cuentaLibrosPorFechas(fechaMaxima,fechaMinima);
         System.out.println("Número total de libros escritos " +
                 "por autores nacidos en el rango indicado" + numeroLibros);
+    }
+    private void listarPorIdioma(){
+        List<Libro> libros = repositorio.busquedaSQLNativo();
+        idiomas = libros.stream()
+            .sorted(Comparator.comparing(Libro::getIdioma))
+            .map(Libro::getIdioma)
+            .distinct()
+            .collect(Collectors.toList());
+        for(int i = 0; i < idiomas.size(); i++){
+            System.out.println(i+1 +" Opción idioma: " + idiomas.get(i));
+        }
     }
     
 }
