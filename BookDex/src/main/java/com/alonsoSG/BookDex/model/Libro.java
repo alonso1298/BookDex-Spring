@@ -32,7 +32,7 @@ public class Libro {
 
     public Libro() {}
 
-    public Libro(DatosLibros datosLibro){
+    public Libro(DatosLibro datosLibro){
         this.titulo = datosLibro.titulo();
         this.autor = datosLibro.autor().stream()
             .map(Autor::new) // Usar el constructor de Autor que acepta DatosAutor

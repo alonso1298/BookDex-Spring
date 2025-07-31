@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.alonsoSG.BookDex.model.Datos;
-import com.alonsoSG.BookDex.model.DatosLibros;
+import com.alonsoSG.BookDex.model.DatosLibro;
 import com.alonsoSG.BookDex.repository.AutorRepository;
 import com.alonsoSG.BookDex.repository.LibroRepository;
 import com.alonsoSG.BookDex.service.ConsumoAPI;
@@ -18,7 +18,7 @@ public class Principal {
     private ConvierteDatos conversor = new ConvierteDatos();
     private LibroRepository repositorio;
     private AutorRepository repositorioAutor;
-    private List<DatosLibros> librosBuscados = new ArrayList<>();
+    private List<DatosLibro> librosBuscados = new ArrayList<>();
 
 
     public Principal(LibroRepository repository, AutorRepository autorRepository) {
