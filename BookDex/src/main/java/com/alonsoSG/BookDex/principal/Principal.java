@@ -1,10 +1,14 @@
 package com.alonsoSG.BookDex.principal;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import com.alonsoSG.BookDex.model.Autor;
 import com.alonsoSG.BookDex.model.DatosLibro;
 import com.alonsoSG.BookDex.model.DatosLibros;
 import com.alonsoSG.BookDex.model.Libro;
@@ -111,6 +115,15 @@ public class Principal {
     
     private void mostrarLibrosRegistrados() {
         List<Libro> libros = repositorio.findAll();
+        libros.stream().sorted(Comparator.comparing(Libro::getTitulo))
+            .forEach(l -> System.out.println(
+                "Titulo: " + l.getTitulo() + 
+                    "\nAutor: " + l.getAutor().stream()
+                    .map(Autor::getNombre) // Solo se obtiene los nombres
+                    .collect(Collectors.joining(", ")) +
+                    "\nNumero de descargas: " + l.getNumeroDeDescargas() +
+                    "\nIdioma: " + l.getIdioma()
+            ));
     }
     private void autoresVivosEnDeterminadoAnio() {
         // TODO Auto-generated method stub
