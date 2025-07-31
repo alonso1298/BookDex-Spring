@@ -125,13 +125,19 @@ public class Principal {
                     "\nIdioma: " + l.getIdioma()
             ));
     }
+
+    private void listarAutoresRegistrados() {
+        List<Autor> autores = repositorioAutor.findAll();
+        autores.stream().sorted(Comparator.comparing(Autor::getNombre))
+            .forEach(a -> System.out.println(
+                "\nNombre: " + a.getNombre() +
+                "\nFecha de Nacimiento: " + a.getFechaDeNacimiento() +
+                "\nFecha de Muerte: " + a.getFechaDeFallecimiento()
+            ));
+    }
+
     private void autoresVivosEnDeterminadoAnio() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'autoresVivosEnDeterminadoAnio'");
+        
     }
     
-    private void listarAutoresRegistrados() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listarAutoresRegistrados'");
-    }
 }
